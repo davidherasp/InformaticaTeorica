@@ -11,34 +11,34 @@ mayusculas [A-Z]
 digito [0-9]
 puntuacion [,.;?:)]
 blanco (" ")
-Minuscula (“(“)*({minus}|{digito})+({puntuacion})*
-Mayuscula (“(“)*({mayusculas}|{digito})+({puntuacion})*
+min (“(“)*({minus}|{digito})+({puntuacion}))*
+may (“(“)*({mayusculas}|{digito})+({puntuacion}))*
 
 %%
 
-{Minuscula}     { 
+{min}      { 
                  	cont=yyleng;	
 		  	if (cont==3)
 		  	{
-		      		conttres=conttres+1;
-		      		contmin=contmin+1;
+		      		conttres++;
+		      		contmin++;
   		  	}
 		  	else
 		  	{
-		      		contmin=contmin+1;
+		      		contmin++;
 		  	}
 		  }
 
-{Mayuscula}     { 
+{may}     { 
                  cont=yyleng;	
 		  if (cont==3)
 		  {
-		      conttres=conttres+1;
-		      contmay=contmay+1;
+		      conttres++;
+		      contmay++;
   		  }
 		  else
 		  {
-		      contmay=contmay+1;
+		      contmay++;
 		  }
 		}
 
@@ -55,7 +55,7 @@ Mayuscula (“(“)*({mayusculas}|{digito})+({puntuacion})*
 .               ;
 
 %%
-main()
+int main()
 {
   char nfe[100];
   printf("Fichero de entrada: ");
@@ -63,9 +63,9 @@ main()
   yyin=fopen(nfe,"r");
   if (yyin !=NULL)
     yylex();
-  printf(“Cantidad de min: %d”, contmin);
-  printf(“Cantidad de may: %d”, contmay);
-  printf(“Cantidad de 3: %d”, conttres);
+  printf("Cantidad de min: %d", contmin);
+  printf("Cantidad de may: %d", contmay);
+  printf("0Cantidad de 3: %d", conttres);
 }
 
 int yywrap(){
