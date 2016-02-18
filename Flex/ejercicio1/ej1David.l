@@ -6,53 +6,18 @@ int contmay=0;
 int conttres=0;
 %}
 
-minus [a-z]
-mayusculas [A-Z] 
-digito [0-9]
-puntuacion [,.;?:)]
-blanco (" ")
-min (“(“)*({minus}|{digito})+({puntuacion}))*
-may (“(“)*({mayusculas}|{digito})+({puntuacion}))*
+minus [a-z]+
+mayus [A-Z]+ 
+mix [a-zA-Z]+
+tres [a-zA-Z]{3,3}
 
 %%
 
-{min}      { 
-                 	cont=yyleng;	
-		  	if (cont==3)
-		  	{
-		      		conttres++;
-		      		contmin++;
-  		  	}
-		  	else
-		  	{
-		      		contmin++;
-		  	}
-		  }
+{minus} {}
 
-{may}     { 
-                 cont=yyleng;	
-		  if (cont==3)
-		  {
-		      conttres++;
-		      contmay++;
-  		  }
-		  else
-		  {
-		      contmay++;
-		  }
-		}
+{mayus} {}
 
-{blanco}+	{
-		  cont=cont+1;
-	          if (cont==40) 
-		     {
-		       printf(" \n");
-		       cont=0;
-		     }	
-		  else
-		    printf("%s"," ");
- 		}
-.               ;
+. | /n ;
 
 %%
 int main()
