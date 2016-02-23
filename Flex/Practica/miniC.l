@@ -9,7 +9,7 @@ natural [0-9]
 noDigitos [_{letra}]
 puntuacion [,;)}]
 input [^\r\n]
-operador [+*=&] //q pasa
+operador [+*=&]
 operador2 ("&&")
 blanco (" ")
 eol( \n | \r | \r\n )
