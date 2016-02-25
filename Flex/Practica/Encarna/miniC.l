@@ -35,7 +35,7 @@ coment ("//"{input}*{eol}?)
     printf("\n identificador");
 }
 
-{coment}    {
+{coment} {
 	lineasComentario++;
     printf("\n Comentario");
 }
@@ -48,7 +48,7 @@ coment ("//"{input}*{eol}?)
 int main()
 {	
 	char nombre[100];
-	yyin = fopen ("ejemplo.txt","r");
+	yyin = fopen ("../data/entrada.c","r");
 	if (yyin != NULL)
 	{
 		yylex();
