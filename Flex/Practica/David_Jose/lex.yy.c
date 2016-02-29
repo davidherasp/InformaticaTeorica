@@ -783,12 +783,12 @@ printfs++;
 case 2:
 YY_RULE_SETUP
 #line 26 "miniC.l"
-ints++;			
+{ints++; REJECT;}			
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 27 "miniC.l"
-floats++;
+{floats++; REJECT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
@@ -814,31 +814,54 @@ case 8:
 YY_RULE_SETUP
 #line 33 "miniC.l"
 {
-	strcpy(identificadores[idents],yytext,4) ;
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 3)
+		{
+			identificadores[idents][i-4]=identificador[i];
+		}
+	}
 	idents++ ;
-	REJECT;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 39 "miniC.l"
+#line 46 "miniC.l"
 {
-	strcpy(identificadores[idents],yytext,6) ;
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 4)
+		{
+			identificadores[idents][i-5]=identificador[i];
+		}
+	}
 	idents++ ;
-	REJECT;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 45 "miniC.l"
+#line 59 "miniC.l"
 {
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 1)
+		{
+			identificadores[idents][i-2]=identificador[i];
+		}
+	}
 	idents++ ;
 }
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 49 "miniC.l"
+#line 72 "miniC.l"
 {
 	lineasComentario++ ;
 }
@@ -846,15 +869,15 @@ YY_RULE_SETUP
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 53 "miniC.l"
+#line 76 "miniC.l"
 ;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 55 "miniC.l"
+#line 78 "miniC.l"
 ECHO;
 	YY_BREAK
-#line 858 "lex.yy.c"
+#line 881 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1825,7 +1848,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 55 "miniC.l"
+#line 78 "miniC.l"
 
 
 
@@ -1845,8 +1868,10 @@ int main()
 
   	for (int i = 0; i < idents; i++)
   	{
-  		printf(identificadores[i]);
+  		printf("%s, ", identificadores[i]);
   	} 
+
+  	printf("\n");
 }
 
 int yywrap()

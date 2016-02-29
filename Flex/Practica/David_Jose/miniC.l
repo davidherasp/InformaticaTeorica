@@ -23,26 +23,49 @@ coment ("//"{input}*{eol}?)
 %%
 
 "printf"	printfs++;
-"int"		ints++;			
-"float"		floats++;
+"int"		{ints++; REJECT;}			
+"float"		{floats++; REJECT;}
 "if"		ifs++;
 "else"		elses++;
 "main"		mains++;
 "scanf"		scanfs++;
 
 ("int "{ident}) {
-	strcpy(identificadores[idents],yytext) ;
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 3)
+		{
+			identificadores[idents][i-4]=identificador[i];
+		}
+	}
 	idents++ ;
-	REJECT;
 }
 
 ("float "{ident}) {
-	strcpy(identificadores[idents],yytext) ;
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 4)
+		{
+			identificadores[idents][i-5]=identificador[i];
+		}
+	}
 	idents++ ;
-	REJECT;
 }
 
 (","{ident}) {
+	char identificador[10];
+	strcpy(identificador,yytext) ;
+	for(int i = 0; i < 10; i++)
+	{
+		if( i >= 1)
+		{
+			identificadores[idents][i-2]=identificador[i];
+		}
+	}
 	idents++ ;
 }
 
@@ -70,8 +93,10 @@ int main()
 
   	for (int i = 0; i < idents; i++)
   	{
-  		printf(identificadores[i]);
+  		printf("%s, ", identificadores[i]);
   	} 
+
+  	printf("\n");
 }
 
 int yywrap()
