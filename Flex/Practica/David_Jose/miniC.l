@@ -20,7 +20,8 @@ numero ({natural}+("."{natural}+)?)
 ident {letra}({nodigitos}|{natural})*
 variables ((("int"|"float"){blanco}+{ident})(","{blanco}*{ident})*";")
 coment ("//"{input}*{eol}?)
-bloque (("(")({input}|{bloque})")")
+parentesis (("(")(.|\n|{parentesis})")")
+llaves (("{")(.|\n|{llaves})")")
 
 %%
 
@@ -37,14 +38,15 @@ bloque (("(")({input}|{bloque})")")
 	char bufer[100];
 	int cursor = 0, i, j;
 	strcpy(entrada, yytext);
-	for (int i = 0; i < yyleng; i++)
+	for (i = 0; i < yyleng; i++)
 	{
 		//Caso int
 		if (entrada[0] == 'i' && i > 3)
 		{
-			//Si no es coma o punto-coma
+			//Si es coma o punto-coma
 			if (entrada[i] == ',' || entrada[i] == ';')
 			{
+				//Introducimos caracter a caracter el contenido del bufer
 				for (j = 0; j < cursor; j++)
 				{
 					identificadores[idents][j] = bufer[j];
@@ -62,7 +64,7 @@ bloque (("(")({input}|{bloque})")")
 		//Caso float
 		if (entrada[0] == 'f'  && i > 5)
 		{
-			//Si no es coma o punto-coma
+			//Si es coma o punto-coma
 			if (entrada[i] == ',' || entrada[i] == ';')
 			{
 				for (j = 0; j < cursor; j++)
