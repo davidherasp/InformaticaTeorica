@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-int ints = 0, floats = 0, ifs = 0, mains = 0, elses = 0, scanfs = 0, printfs = 0, lineasTotales = 0, lineasComentario = 0, idents = 0;
+int ints = 0, floats = 0, ifs = 0, mains = 0, elses = 0, scanfs = 0, printfs = 0, lineasTotales = 0, lineasComentario = 0, idents = 0, cadenas = 0;
 char *identificadores[100][100];
 
 %}
@@ -22,6 +22,7 @@ variables ((("int"|"float"){blanco}+{ident})(","{blanco}*{ident})*";")
 coment ("//"{input}*{eol}?)
 parentesis (("(")(.|\n|{parentesis})")")
 llaves (("{")(.|\n|{llaves})")")
+cadena ("""[{input}|\"]*""")
 
 %%
 
@@ -83,6 +84,11 @@ llaves (("{")(.|\n|{llaves})")")
 	}
 }
 
+{cadena} {
+	printf("%s", yytext);
+	cadenas++;
+}
+
 {coment} {
 	lineasComentario++ ;
 	lineasTotales++;
@@ -121,8 +127,9 @@ int main()
   		printf(", ");
 	  	
   	} 
-
   	printf("\n");
+
+  	printf("Constantes: cadenas[%d]\n", cadenas);
 }
 
 int yywrap()
