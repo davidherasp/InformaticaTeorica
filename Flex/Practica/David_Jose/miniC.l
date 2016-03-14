@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-int ints = 0, floats = 0, ifs = 0, mains = 0, elses = 0, scanfs = 0, printfs = 0, lineasTotales = 0, lineasComentario = 0, idents = 0, cadenas = 0;
+int ints = 0, floats = 0, ifs = 0, mains = 0, elses = 0, scanfs = 0, printfs = 0, lineasTotales = 0, lineasComentario = 0, idents = 0, cadenas = 0, numeros = 0;
 char *identificadores[100][100];
 
 %}
@@ -20,10 +20,7 @@ numero ({natural}+("."{natural}+)?)
 ident {letra}({nodigitos}|{natural})*
 variables ((("int"|"float"){blanco}+{ident})(","{blanco}*{ident})*";")
 coment ("//"{input}*{eol}?)
-parentesis (("(")(.|\n|{parentesis})")")
-llaves (("{")(.|\n|{llaves})")")
-cadena ("""[{input}|\"]*""")
-
+cadena \"(\\.|[^\\"])*\"
 %%
 
 "printf"	printfs++;
@@ -84,10 +81,8 @@ cadena ("""[{input}|\"]*""")
 	}
 }
 
-{cadena} {
-	printf("%s", yytext);
-	cadenas++;
-}
+{cadena} { printf("Cadena: [%s]\n", yytext); cadenas++; }
+{numero} { printf("Numero: [%s]\n", yytext); numeros++; }
 
 {coment} {
 	lineasComentario++ ;
@@ -136,3 +131,6 @@ int yywrap()
 {
 	return 1;
 }
+
+//Webgrafia
+//http://www.lysator.liu.se/c/ANSI-C-grammar-l.html
