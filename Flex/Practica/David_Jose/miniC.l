@@ -5,15 +5,33 @@
 int ints = 0, floats = 0, ifs = 0, mains = 0, elses = 0, scanfs = 0, printfs = 0, lineasTotales = 0, lineasComentario = 0, idents = 0, cadenas = 0, numeros = 0;
 char *identificadores[100][100];
 
+struct identificador
+{
+	char nombre[100];
+	char tipo[10];
+};
+
+struct nodoIdent
+{ 
+	struct identificador ident;
+	struct nodoIdent *sig;
+	struct nodoIdent *ant;
+};
+
+struct listaIdents
+{
+	struct nodoIdent *pri;
+	struct nodoIdent *ult;
+};
+
 %}
 
 letra [a-zA-Z]
 natural [0-9]
 nodigitos [_a-zA-Z]
-puntuacion [,;)}]
+separadores [,;(){}]
 input [^\r\n]
-operador [+*=&]
-operador2 ("&&")
+operador [+*=&"&&"]
 blanco (" ")
 eol (\n|\r|\r\n)
 numero ({natural}+("."{natural}+)?)
@@ -21,11 +39,10 @@ ident {letra}({nodigitos}|{natural})*
 variables ((("int"|"float"){blanco}+{ident})(","{blanco}*{ident})*";")
 coment ("//"{input}*{eol}?)
 cadena \"(\\.|[^\\"])*\"
+
 %%
 
 "printf"	printfs++;
-"int"		ints++;			
-"float"		floats++;
 "if"		ifs++;
 "else"		elses++;
 "main"		mains++;
@@ -93,6 +110,10 @@ cadena \"(\\.|[^\\"])*\"
 	lineasTotales++;
 }
 
+{separadores} {}
+{operador} 	  {}
+{letra}		  {}
+
 .|\n ;
 
 %%
@@ -124,7 +145,7 @@ int main()
   	} 
   	printf("\n");
 
-  	printf("Constantes: cadenas[%d]\n", cadenas);
+  	printf("Constantes: cadenas[%d], numeros[%d]\n", cadenas, numeros);
 }
 
 int yywrap()
