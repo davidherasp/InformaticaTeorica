@@ -5,12 +5,12 @@ main()
 	int b,casa23; 
 	float f;
 //codigo
-	printf(“Introduce un entero\n”); scanf(“%d”,&a); 
+	printf("Introduce un entero\n"); scanf("%d",&a); 
 	if(a) {	
 		b=a+1000; 
 	}
 	else
 		f=a+23.5;
-	printf(“Adiooooooooos”); 
+	printf("Adiooooooooos"); 
 }
 //fin
